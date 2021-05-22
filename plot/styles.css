@@ -1,0 +1,47 @@
+#plotarea {
+  width: 288px;
+  height: 288px;
+  border: 1px solid #d3d3d3;
+}
+
+h2 {
+  margin: 6px 5px 5px 5px;
+}
+
+#controls {
+  height: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: blue;
+}
+
+.input {
+  margin: 0;
+  width: 80px;
+  background-color: grey;
+  text-align: center;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+.input:hover {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: red;
+}
+
+.selectedPlot {
+  display: block;
+}
+
+svg {
+  display: none;
+}
