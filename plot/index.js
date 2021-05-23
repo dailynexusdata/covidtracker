@@ -1,5 +1,5 @@
 const size = { width: 288, height: 220 };
-const margin = { left: 15, right: 15, top: 10, bottom: 25 };
+const margin = { left: 15, right: 15, top: 15, bottom: 25 };
 
 const getData = async () => {
   return (await d3.json("plot/cases.json")).map(({ date, total, daily }) => {

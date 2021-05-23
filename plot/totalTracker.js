@@ -83,4 +83,25 @@
       hover.remove();
     });
   });
+
+  const ylines = [10000, 20000, 30000];
+  ylines.forEach((yval) => {
+    svg
+      .append("line")
+      .attr("stroke", "black")
+      .attr("stroke-width", 0.2)
+      .attr("y1", y(yval))
+      .attr("y2", y(yval))
+      .attr("x1", margin.left + 25)
+      .attr("x2", size.width - margin.right);
+
+    svg
+      .append("text")
+      .text(yval / 1000 + "k")
+      .attr("opacity", 0.4)
+      .attr("y", y(yval))
+      .attr("x", margin.left)
+      .attr("text-anchor", "start")
+      .attr("alignment-baseline", "middle");
+  });
 })();

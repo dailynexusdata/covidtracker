@@ -8,28 +8,25 @@ const credentials = JSON.parse(
 
 axios
   .get(
-    "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv"
+    "https://static.usafacts.org/public/data/covid-19/covid_confirmed_usafacts.csv"
   )
   .then(({ data }) => {
-    let total = 0;
+    const header = data.substring(0, data.indexOf("\n"));
+    const dates = header.match(/StateFIPS,([\d,\-]*)/)[1].split(",");
+    const sbRow = data
+      .match(/Santa Barbara County .*\"06\",([\d,]*)/)[1]
+      .split(",");
 
-    const output = data
-      .split("\n")
-      .filter((str) => {
-        return str.includes("Santa Barbara");
-      })
-      .map((line) => {
-        const vals = line.split(",");
-        const [year, mon, day] = vals[0].split("-");
-        return { date: `${mon}/${day}/${year}`, daily: +vals[8] };
-      })
-      .reverse()
-      .map((val) => {
-        total += val.daily;
-        return { ...val, total };
-      })
-      .filter(({ total }) => total > 0);
-
+    const output = [];
+    dates.forEach((d, i) => {
+      const [year, mon, day] = d.split("-");
+      // date, total, new
+      output.push({
+        date: `${mon}/${day}/${year}`,
+        total: +sbRow[i],
+        daily: i === 0 ? 0 : sbRow[i] - sbRow[i - 1],
+      });
+    });
     return output;
   })
   .then(async (data) => {
