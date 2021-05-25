@@ -32,6 +32,7 @@ html {
   margin: 0;
   width: 80px;
   background-color: #d3d3d366;
+  border-radius: 5px;
   text-align: center;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -58,7 +59,7 @@ svg {
 }
 
 #source {
-  margin: 5px 0 0 0;
+  margin: 7px 0 0 0;
   font-size: 9pt;
   text-align: right;
 }
@@ -87,4 +88,6 @@ svg {
 
 .tooltip hr {
   margin: 3px 0;
+  border: none;
+  border-top: 1px solid black;
 }

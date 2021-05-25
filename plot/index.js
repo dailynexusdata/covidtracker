@@ -11,6 +11,10 @@ const getData = async () => {
   });
 };
 
+const tooltipAlignment = (x) => {
+  return (x > size.width / 2 ? x - 173 : x + 5) + "px";
+};
+
 const totalSelection = document.getElementById("totalbutton");
 const daySelection = document.getElementById("daybutton");
 const totalTracker = document.getElementById("totalTracker");

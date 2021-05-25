@@ -42,6 +42,22 @@
     .enter()
     .append("path")
     .attr("d", line);
+
+  const area = d3
+    .area()
+    .x((d) => x(d.date))
+    .y0(size.height - margin.bottom)
+    .y1((d) => y(d.total_doses));
+  svg
+    .append("g")
+    .attr("stroke", "none")
+    .attr("fill", "#228FCB")
+    .attr("fill-opacity", 0.3)
+    .selectAll("myline")
+    .data([data])
+    .enter()
+    .append("path")
+    .attr("d", area);
   svg.on("mouseenter", () => {
     const hover = svg.append("g");
     const line = hover
@@ -54,7 +70,11 @@
       .attr("stroke", "black")
       .attr("display", "none");
 
-    const div = d3.select("#plotarea").append("div").attr("class", "tooltip");
+    const div = d3
+      .select("#plotarea")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("display", "none");
 
     svg.on("mousemove", (event) => {
       const currDate = x.invert(d3.pointer(event)[0]);
@@ -72,17 +92,18 @@
 
       div
         .html(
-          `<div class="tooltipdate">${
-            currDate.getMonth() + 1
-          }/${currDate.getDate()}/${currDate.getUTCFullYear()}</div><hr>Total At Least One Dose: ${d3.format(
-            ","
-          )(val.total_doses)}`
+          `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
+            currDate
+          )}</div><hr>Total At Least One Doses: ${d3.format(",")(
+            val.total_doses
+          )}`
         )
-        .style("left", x(currDate) + 10 + "px")
+        .style("left", tooltipAlignment(x(currDate)))
         .style(
           "top",
           y(val.total_doses) - size.height - margin.bottom - margin.top + "px"
-        );
+        )
+        .style("display", "block");
       line
         .attr("x1", x(currDate))
         .attr("x2", x(currDate))

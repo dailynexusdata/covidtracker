@@ -32,6 +32,12 @@
   // .y0((d) => y(d.total))
   // .y1(y(0));
 
+  const area = d3
+    .area()
+    .x((d) => x(d.date))
+    .y0(size.height - margin.bottom)
+    .y1((d) => y(d.total_cases));
+
   svg
     .append("g")
     .attr("stroke", "#003660")
@@ -42,6 +48,16 @@
     .enter()
     .append("path")
     .attr("d", line);
+  svg
+    .append("g")
+    .attr("stroke", "none")
+    .attr("fill", "#228FCB")
+    .attr("fill-opacity", 0.3)
+    .selectAll("myline")
+    .data([data])
+    .enter()
+    .append("path")
+    .attr("d", area);
 
   svg.on("mouseenter", () => {
     const hover = svg.append("g");
@@ -55,7 +71,11 @@
       .attr("stroke", "black")
       .attr("display", "none");
 
-    const div = d3.select("#plotarea").append("div").attr("class", "tooltip");
+    const div = d3
+      .select("#plotarea")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("display", "none");
     svg.on("mousemove", (event) => {
       const currDate = x.invert(d3.pointer(event)[0]);
 
@@ -71,13 +91,11 @@
       });
       div
         .html(
-          `<div class="tooltipdate">${
-            currDate.getMonth() + 1
-          }/${currDate.getDate()}/${currDate.getUTCFullYear()}</div><hr>Total Cases: ${d3.format(
-            ","
-          )(val.total_cases)}`
+          `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
+            currDate
+          )}</div><hr>Total Cases: ${d3.format(",")(val.total_cases)}`
         )
-        .style("left", x(currDate) + 10 + "px")
+        .style("left", tooltipAlignment(x(currDate)))
         .style(
           "top",
           y(val.total_cases) -
@@ -85,7 +103,8 @@
             margin.top -
             margin.bottom / 2 +
             "px"
-        );
+        )
+        .style("display", "block");
 
       line
         .attr("x1", x(currDate))
