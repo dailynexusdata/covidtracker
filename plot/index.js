@@ -51,8 +51,8 @@ vaccineSelection.addEventListener("click", () => {
   dailyTracker.classList.remove("selectedPlot");
   title.innerHTML = "Cumulative At Least One Dose";
 });
-totalSelection.classList.add("selected");
-totalTracker.classList.add("selectedPlot");
+daySelection.classList.add("selected");
+dailyTracker.classList.add("selectedPlot");
 
 // daySelection.classList.add("selected");
 // dailyTracker.classList.add("selectedPlot");
