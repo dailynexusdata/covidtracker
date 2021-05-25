@@ -15,13 +15,17 @@
             <div style="width: 100%; display: flex; justify-content: center; margin: 5px">
                 <!--  -->
                 <div id="plotarea">
-                    <h2>Hello</h2>
+                    <h3>Santa Barbara County </h3>
+                    <h3 id="title">Cumulative Covid Cases</h3>
                     <div id="controls">
-                        <p class="input" id="totalbutton">Total</p>
                         <p class="input" id="daybutton">Daily</p>
+                        <p class="input" id="vaccinebutton">Vaccines</p>
+                        <p class="input" id="totalbutton">Total</p>
                     </div>
                     <svg id="totalTracker"></svg>
+                    <svg id="vaccineTracker"></svg>
                     <svg id="dailyTracker"></svg>
+                    <p id="source"><i>Source: California Health and Human Services</i></p>
                 </div>
                 <!--  -->
             </div>
@@ -29,6 +33,7 @@
         <script src='plot/index.js'></script>
         <script src='plot/totalTracker.js'></script>
         <script src='plot/dailyTracker.js'></script>
+        <script src='plot/vaccineTracker.js'></script>
     </body>
 
 </html>

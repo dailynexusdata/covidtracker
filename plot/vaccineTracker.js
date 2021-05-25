@@ -2,7 +2,7 @@
   const data = await getData();
 
   const svg = d3
-    .select("#totalTracker")
+    .select("#vaccineTracker")
     .attr("width", size.width)
     .attr("height", size.height);
 
@@ -15,7 +15,7 @@
 
   const y = d3
     .scaleLinear()
-    .domain([data[0].total_cases, data[data.length - 1].total_cases])
+    .domain([data[0].total_doses, data[data.length - 1].total_doses])
     .range([size.height - margin.bottom, margin.top]);
 
   svg
@@ -28,7 +28,7 @@
     // .area(d3.curveLinear)
     .line()
     .x((d) => x(d.date))
-    .y((d) => y(d.total_cases));
+    .y((d) => y(d.total_doses));
   // .y0((d) => y(d.total))
   // .y1(y(0));
 
@@ -42,7 +42,6 @@
     .enter()
     .append("path")
     .attr("d", line);
-
   svg.on("mouseenter", () => {
     const hover = svg.append("g");
     const line = hover
@@ -56,6 +55,7 @@
       .attr("display", "none");
 
     const div = d3.select("#plotarea").append("div").attr("class", "tooltip");
+
     svg.on("mousemove", (event) => {
       const currDate = x.invert(d3.pointer(event)[0]);
 
@@ -69,24 +69,20 @@
           ? past
           : curr;
       });
+
       div
         .html(
           `<div class="tooltipdate">${
             currDate.getMonth() + 1
-          }/${currDate.getDate()}/${currDate.getUTCFullYear()}</div><hr>Total Cases: ${d3.format(
+          }/${currDate.getDate()}/${currDate.getUTCFullYear()}</div><hr>Total At Least One Dose: ${d3.format(
             ","
-          )(val.total_cases)}`
+          )(val.total_doses)}`
         )
         .style("left", x(currDate) + 10 + "px")
         .style(
           "top",
-          y(val.total_cases) -
-            size.height -
-            margin.top -
-            margin.bottom / 2 +
-            "px"
+          y(val.total_doses) - size.height - margin.bottom - margin.top + "px"
         );
-
       line
         .attr("x1", x(currDate))
         .attr("x2", x(currDate))
@@ -95,7 +91,7 @@
 
       circ
         .attr("cx", x(val.date))
-        .attr("cy", y(val.total_cases))
+        .attr("cy", y(val.total_doses))
         .attr("display", "block");
     });
 
@@ -105,7 +101,7 @@
     });
   });
 
-  const ylines = [5000, 15000, 25000, 35000];
+  const ylines = [50000, 150000, 250000];
   ylines.forEach((yval, i) => {
     svg
       .append("line")
@@ -118,7 +114,7 @@
     svg
       .append("text")
       .attr("class", "svgtxt")
-      .text(yval / 1000 + ",000" + (i == ylines.length - 1 ? " cases" : ""))
+      .text(yval / 1000 + ",000" + (i == ylines.length - 1 ? " people" : ""))
       .attr("opacity", 0.4)
       .attr("y", y(yval) - 5)
       .attr("x", margin.left)
