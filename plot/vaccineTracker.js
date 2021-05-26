@@ -5,6 +5,7 @@
     .select("#vaccineTracker")
     .attr("width", size.width)
     .attr("height", size.height);
+  const svgDiv = d3.select("#vaccineTrackerDiv");
 
   const dateRange = [data[0].date, data[data.length - 1].date];
 
@@ -13,18 +14,21 @@
     .domain(dateRange)
     .range([margin.left, size.width - margin.right]);
 
+  const yinit = d3.scaleLinear().domain([0, data[data.length - 1].total_doses]);
+  const yAxis = d3.axisLeft(yinit).scale().nice(3).ticks(3).slice(1);
   const y = d3
     .scaleLinear()
-    .domain([data[0].total_doses, data[data.length - 1].total_doses])
+    .domain([0, yAxis[yAxis.length - 1]])
     .range([size.height - margin.bottom, margin.top]);
 
   svg
     .append("g")
     .attr("transform", `translate(0, ${size.height - margin.bottom})`)
     .style("font-size", "12pt")
+    .style("font-family", "Georgia, serif")
     .call(d3.axisBottom().scale(x).ticks(7).tickFormat(d3.timeFormat("%b")));
 
-  const line = d3
+  const line1 = d3
     // .area(d3.curveLinear)
     .line()
     .x((d) => x(d.date))
@@ -32,6 +36,50 @@
   // .y0((d) => y(d.total))
   // .y1(y(0));
 
+  const line2 = d3
+    // .area(d3.curveLinear)
+    .line()
+    .x((d) => x(d.date))
+    .y((d) => y(d.total_double_doses));
+
+  const total_area = d3
+    .area()
+    .x((d) => x(d.date))
+    .y0((d) => y(d.total_double_doses))
+    .y1((d) => y(d.total_doses));
+  const double_area = d3
+    .area()
+    .x((d) => x(d.date))
+    .y0(size.height - margin.bottom)
+    .y1((d) => y(d.total_double_doses));
+
+  svg
+    .append("g")
+    .attr("stroke", "none")
+    .attr("fill", "#228FCB")
+    .attr("fill-opacity", 0.3)
+    .datum(data)
+    .append("path")
+    .attr("d", total_area);
+  svg
+    .append("g")
+    .attr("stroke", "none")
+    .attr("fill", "#FEBC11")
+    .attr("fill-opacity", 0.3)
+    .datum(data)
+    .append("path")
+    .attr("d", double_area);
+
+  svg
+    .append("g")
+    .attr("stroke", "#FEBC11")
+    .attr("stroke-width", 3)
+    .attr("fill", "none")
+    .selectAll("myline")
+    .data([data])
+    .enter()
+    .append("path")
+    .attr("d", line2);
   svg
     .append("g")
     .attr("stroke", "#003660")
@@ -41,42 +89,72 @@
     .data([data])
     .enter()
     .append("path")
-    .attr("d", line);
+    .attr("d", line1);
 
-  const area = d3
-    .area()
-    .x((d) => x(d.date))
-    .y0(size.height - margin.bottom)
-    .y1((d) => y(d.total_doses));
-  svg
-    .append("g")
-    .attr("stroke", "none")
-    .attr("fill", "#228FCB")
-    .attr("fill-opacity", 0.3)
-    .selectAll("myline")
-    .data([data])
-    .enter()
-    .append("path")
-    .attr("d", area);
-  svg.on("mouseenter", () => {
+  const legend = svg.append("g");
+
+  legend
+    .append("text")
+    .attr("class", "svgtxt")
+    .text("Full Vaccinated")
+    .attr("y", y(20000))
+    .attr("x", margin.left * 2)
+    .attr("fill", "#FEBC11")
+    .attr("text-align", "start")
+    .attr("alignment-baseline", "middle");
+  legend
+    .append("text")
+    .attr("class", "svgtxt")
+    .text("At Least One Dose")
+    .attr("y", y(20000) - 16)
+    .attr("x", margin.left * 2)
+    .attr("fill", "#003660")
+    .attr("text-align", "start")
+    .attr("alignment-baseline", "middle");
+  legend
+    .append("line")
+    .attr("y1", y(20000) - 16)
+    .attr("y2", y(20000) - 16)
+    .attr("x1", margin.left)
+    .attr("x2", margin.left * 2)
+    .attr("stroke", "#003660")
+    .attr("stroke-width", 2);
+  legend
+    .append("line")
+    .attr("y1", y(20000))
+    .attr("y2", y(20000))
+    .attr("x1", margin.left)
+    .attr("x2", margin.left * 2)
+    .attr("stroke", "#FEBC11")
+    .attr("stroke-width", 2);
+
+  let entered = false;
+  svgDiv.on("mouseenter", () => {
+    if (entered) {
+      return;
+    }
+    entered = true;
     const hover = svg.append("g");
     const line = hover
       .append("line")
       .style("stroke-dasharray", "3, 3")
       .attr("stroke", "black");
-    const circ = hover
+    const circ1 = hover
       .append("circle")
       .attr("r", 3)
       .attr("stroke", "black")
       .attr("display", "none");
-
-    const div = d3
-      .select("#plotarea")
+    const circ2 = hover
+      .append("circle")
+      .attr("r", 3)
+      .attr("stroke", "black")
+      .attr("display", "none");
+    const div = svgDiv
       .append("div")
       .attr("class", "tooltip")
       .style("display", "none");
-
-    svg.on("mousemove", (event) => {
+    legend.attr("display", "none");
+    svgDiv.on("mousemove", (event) => {
       const currDate = x.invert(d3.pointer(event)[0]);
 
       if (currDate < dateRange[0] || currDate > dateRange[1]) {
@@ -90,19 +168,18 @@
           : curr;
       });
 
+      div.html(
+        `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
+          currDate
+        )}</div><hr><b>At Least One Dose: ${d3.format(",")(
+          val.total_doses
+        )}</b><br>Fully Vaccinated: ${d3.format(",")(val.total_double_doses)}`
+      );
+
+      const tooltipBox = div.node().getBoundingClientRect();
       div
-        .html(
-          `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
-            currDate
-          )}</div><hr>Total At Least One Doses: ${d3.format(",")(
-            val.total_doses
-          )}`
-        )
-        .style("left", tooltipAlignment(x(currDate)))
-        .style(
-          "top",
-          y(val.total_doses) - size.height - margin.bottom - margin.top + "px"
-        )
+        .style("left", tooltipAlignmentx(x(currDate), tooltipBox))
+        .style("top", tooltipAlignmenty(y(val.total_doses), tooltipBox))
         .style("display", "block");
       line
         .attr("x1", x(currDate))
@@ -110,24 +187,30 @@
         .attr("y1", margin.top)
         .attr("y2", size.height - margin.bottom);
 
-      circ
+      circ1
         .attr("cx", x(val.date))
         .attr("cy", y(val.total_doses))
         .attr("display", "block");
+      circ2
+        .attr("cx", x(val.date))
+        .attr("cy", y(val.total_double_doses))
+        .attr("display", "block");
     });
 
-    svg.on("mouseleave", () => {
+    svgDiv.on("mouseleave", () => {
+      entered = false;
       hover.remove();
       div.remove();
+      legend.attr("display", "block");
     });
   });
 
-  const ylines = [50000, 150000, 250000];
-  ylines.forEach((yval, i) => {
+  yAxis.forEach((yval, i) => {
     svg
       .append("line")
       .attr("stroke", "black")
       .attr("stroke-width", 0.2)
+      .attr("stroke-opacity", 0.3)
       .attr("y1", y(yval))
       .attr("y2", y(yval))
       .attr("x1", margin.left)
@@ -135,7 +218,7 @@
     svg
       .append("text")
       .attr("class", "svgtxt")
-      .text(yval / 1000 + ",000" + (i == ylines.length - 1 ? " people" : ""))
+      .text(yval / 1000 + ",000" + (i == yAxis.length - 1 ? " people" : ""))
       .attr("opacity", 0.4)
       .attr("y", y(yval) - 5)
       .attr("x", margin.left)

@@ -18,13 +18,21 @@
                     <h3>Santa Barbara County </h3>
                     <h3 id="title">Cumulative Covid Cases</h3>
                     <div id="controls">
-                        <p class="input" id="daybutton">Daily</p>
                         <p class="input" id="vaccinebutton">Vaccines</p>
+                        <p class="input" id="daybutton">Daily</p>
                         <p class="input" id="totalbutton">Total</p>
                     </div>
-                    <svg id="totalTracker"></svg>
-                    <svg id="vaccineTracker"></svg>
-                    <svg id="dailyTracker"></svg>
+                    <div id="plots">
+                        <div id="totalTrackerDiv">
+                            <svg id="totalTracker"></svg>
+                        </div>
+                        <div id="vaccineTrackerDiv">
+                            <svg id="vaccineTracker"></svg>
+                        </div>
+                        <div id="dailyTrackerDiv">
+                            <svg id="dailyTracker"></svg>
+                        </div>
+                    </div>
                     <p id="source"><i>Source: California Health and Human Services</i></p>
                 </div>
                 <!--  -->

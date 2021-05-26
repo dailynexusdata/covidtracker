@@ -1,5 +1,5 @@
 const size = { width: 288, height: 215 };
-const margin = { left: 15, right: 15, top: 25, bottom: 25 };
+const margin = { left: 15, right: 15, top: 20, bottom: 25 };
 
 const getData = async () => {
   return (await d3.json("plot/cases_vaccines.json")).map((record) => {
@@ -10,10 +10,28 @@ const getData = async () => {
     };
   });
 };
-
-const tooltipAlignment = (x) => {
-  return (x > size.width / 2 ? x - 173 : x + 5) + "px";
+const tooltipAlignmentx = (x, tooltipBox) => {
+  // console.log(tooltipBox);
+  return (
+    Math.max(
+      margin.left - 10,
+      Math.min(
+        x - tooltipBox.width / 2,
+        size.width - tooltipBox.width - margin.right + 10
+      )
+    ) + "px"
+  );
+  // return (x > size.width / 2 ? x - 173 : x + 5) + "px";
 };
+const tooltipAlignmenty = (y, tooltipBox) => {
+  return y - size.height - 10 - tooltipBox.height + "px";
+};
+// const tooltipAlignmentx = (x) => {
+//   return (x > size.width / 2 ? x - 173 : x + 5) + "px";
+// };
+// const tooltipAlignmenty = (y) => {
+//   return y - size.height - margin.bottom - margin.top + "px";
+// };
 
 const totalSelection = document.getElementById("totalbutton");
 const daySelection = document.getElementById("daybutton");
@@ -49,7 +67,7 @@ vaccineSelection.addEventListener("click", () => {
   totalTracker.classList.remove("selectedPlot");
   vaccineTracker.classList.add("selectedPlot");
   dailyTracker.classList.remove("selectedPlot");
-  title.innerHTML = "Cumulative At Least One Dose";
+  title.innerHTML = "Cumulative Vaccines";
 });
 daySelection.classList.add("selected");
 dailyTracker.classList.add("selectedPlot");

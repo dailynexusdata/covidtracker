@@ -6,6 +6,8 @@
     .attr("width", size.width)
     .attr("height", size.height);
 
+  const svgDiv = d3.select("#dailyTrackerDiv");
+
   const dateRange = [data[0].date, data[data.length - 1].date];
 
   const x = d3
@@ -14,17 +16,23 @@
     // .nice()
     .range([margin.left, size.width - margin.right]);
 
+  const yinit = d3
+    .scaleLinear()
+    .domain([0, Math.max(...data.map(({ cases }) => cases))]);
+
+  const yAxis = d3.axisLeft(yinit).scale().nice().ticks(3).slice(1);
+
   const y = d3
     .scaleLinear()
-    .domain([0, Math.max(...data.map(({ cases }) => cases))])
+    .domain([0, yAxis[yAxis.length - 1]])
     .range([size.height - margin.bottom, margin.top]);
 
-  const ylines = [250, 500, 750];
-  ylines.forEach((yval, i) => {
+  yAxis.forEach((yval, i) => {
     svg
       .append("line")
       .attr("stroke", "black")
       .attr("stroke-width", 0.2)
+      .attr("stroke-opacity", 0.3)
       .attr("y1", y(yval))
       .attr("y2", y(yval))
       .attr("x1", margin.left)
@@ -33,7 +41,7 @@
     svg
       .append("text")
       .attr("class", "svgtxt")
-      .text(yval + (i === ylines.length - 1 ? " cases" : ""))
+      .text(yval + (i === yAxis.length - 1 ? " cases" : ""))
       .attr("opacity", 0.4)
       .attr("y", y(yval) - 5)
       .attr("x", margin.left)
@@ -94,7 +102,7 @@
     .append("text")
     .text("New cases")
     .attr("x", size.width / 3 + 10)
-    .attr("y", y(400))
+    .attr("y", y(420))
     .attr("class", "tooltip")
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
@@ -111,28 +119,29 @@
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 4 0 0 2 4 4")
-    .attr("fill", "#FFC82D");
+    .attr("fill", "#FEBC11");
   labels
     .append("path")
     .attr(
       "d",
-      `M ${size.width / 4 + 5} ${y(280)} Q ${size.width / 3 + 10} ${y(280)}, ${
-        size.width / 3 + 10
-      } ${y(400) + 2}`
+      `M ${size.width / 4 + 5} ${y(295) - 12} Q ${size.width / 3 + 10} ${
+        y(295) - 12
+      }, ${size.width / 3 + 10} ${y(420) + 2}`
     )
     .attr("fill", "none")
-    .attr("stroke", "#FFC82D")
+    .attr("stroke", "#FEBC11")
     .attr("stroke-width", 2)
     .attr("marker-start", "url(#triangle2)");
 
   const yHeight = d3
     .scaleLinear()
-    .domain([0, Math.max(...data.map(({ cases }) => cases))])
+    .domain([0, yAxis[yAxis.length - 1]])
     .range([0, size.height - margin.bottom - margin.top]);
   svg
     .append("g")
     .attr("transform", `translate(0, ${size.height - margin.bottom})`)
     .style("font-size", "12pt")
+    .style("font-family", "Georgia, serif")
     .call(d3.axisBottom().scale(x).ticks(5).tickFormat(d3.timeFormat("%b")));
 
   const bars = svg
@@ -153,15 +162,21 @@
       return yHeight(d.cases);
     });
 
-  svg.on("mouseenter", () => {
+  let entered = false;
+  svgDiv.on("mouseenter", () => {
+    if (entered) {
+      return;
+    }
+    entered = true;
+
     const hover = svg.append("g");
     const circ = hover
       .append("circle")
       .attr("r", 3)
       .attr("stroke", "black")
       .attr("display", "none");
-    const div = d3
-      .select("#plotarea")
+
+    const div = svgDiv
       .append("div")
       .attr("class", "tooltip")
       .style("display", "none");
@@ -169,8 +184,7 @@
     bars.attr("fill-opacity", 0.3);
 
     labels.attr("display", "none");
-
-    svg.on("mousemove", (event) => {
+    svgDiv.on("mousemove", (event) => {
       const currDate = x.invert(d3.pointer(event)[0]);
 
       if (currDate < dateRange[0] || currDate > dateRange[1]) {
@@ -202,20 +216,26 @@
             d3.format(",")(val.avg)
           )}</b><br>New Cases: ${d3.format(",")(val.cases)}`
         )
-        .style("left", tooltipAlignment(x(currDate)))
-        .style(
-          "top",
-          y(val.avg) - size.height - margin.bottom - margin.top + "px"
-        )
         .style("display", "block");
 
+      const tooltipBox = div.node().getBoundingClientRect();
+      const xval = tooltipAlignmentx(x(currDate), tooltipBox);
+      div
+        .style("left", xval)
+        .style("top", tooltipAlignmenty(y(val.avg), tooltipBox));
+
+      // div.style("left", xval + "px");
+      // div.style("left", xval + 1 + "px");
+
+      // console.log(div.node().getBoundingClientRect());
       circ
         .attr("cx", x(val.date))
         .attr("cy", y(val.avg))
         .attr("display", "block");
     });
 
-    svg.on("mouseleave", () => {
+    svgDiv.on("mouseleave", () => {
+      entered = false;
       hover.remove();
       div.remove();
       bars.attr("fill-opacity", 1).attr("width", 1);

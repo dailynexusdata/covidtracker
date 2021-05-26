@@ -6,6 +6,8 @@
     .attr("width", size.width)
     .attr("height", size.height);
 
+  const svgDiv = d3.select("#totalTrackerDiv");
+
   const dateRange = [data[0].date, data[data.length - 1].date];
 
   const x = d3
@@ -13,15 +15,19 @@
     .domain(dateRange)
     .range([margin.left, size.width - margin.right]);
 
+  const yinit = d3.scaleLinear().domain([0, data[data.length - 1].total_cases]);
+  const yAxis = d3.axisLeft(yinit).scale().nice(3).ticks(3).slice(1);
+
   const y = d3
     .scaleLinear()
-    .domain([data[0].total_cases, data[data.length - 1].total_cases])
+    .domain([0, yAxis[yAxis.length - 1]])
     .range([size.height - margin.bottom, margin.top]);
 
   svg
     .append("g")
     .attr("transform", `translate(0, ${size.height - margin.bottom})`)
     .style("font-size", "12pt")
+    .style("font-family", "Georgia, serif")
     .call(d3.axisBottom().scale(x).ticks(7).tickFormat(d3.timeFormat("%b")));
 
   const line = d3
@@ -43,9 +49,7 @@
     .attr("stroke", "#003660")
     .attr("stroke-width", 3)
     .attr("fill", "none")
-    .selectAll("myline")
-    .data([data])
-    .enter()
+    .datum(data)
     .append("path")
     .attr("d", line);
   svg
@@ -53,13 +57,17 @@
     .attr("stroke", "none")
     .attr("fill", "#228FCB")
     .attr("fill-opacity", 0.3)
-    .selectAll("myline")
+    .selectAll("myArea")
     .data([data])
     .enter()
     .append("path")
     .attr("d", area);
-
-  svg.on("mouseenter", () => {
+  let entered = false;
+  svgDiv.on("mouseenter", () => {
+    if (entered) {
+      return;
+    }
+    entered = true;
     const hover = svg.append("g");
     const line = hover
       .append("line")
@@ -71,12 +79,11 @@
       .attr("stroke", "black")
       .attr("display", "none");
 
-    const div = d3
-      .select("#plotarea")
+    const div = svgDiv
       .append("div")
       .attr("class", "tooltip")
       .style("display", "none");
-    svg.on("mousemove", (event) => {
+    svgDiv.on("mousemove", (event) => {
       const currDate = x.invert(d3.pointer(event)[0]);
 
       if (currDate < dateRange[0] || currDate > dateRange[1]) {
@@ -89,21 +96,16 @@
           ? past
           : curr;
       });
+      div.html(
+        `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
+          currDate
+        )}</div><hr>Total Cases: ${d3.format(",")(val.total_cases)}`
+      );
+
+      const tooltipBox = div.node().getBoundingClientRect();
       div
-        .html(
-          `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
-            currDate
-          )}</div><hr>Total Cases: ${d3.format(",")(val.total_cases)}`
-        )
-        .style("left", tooltipAlignment(x(currDate)))
-        .style(
-          "top",
-          y(val.total_cases) -
-            size.height -
-            margin.top -
-            margin.bottom / 2 +
-            "px"
-        )
+        .style("left", tooltipAlignmentx(x(currDate), tooltipBox))
+        .style("top", tooltipAlignmenty(y(val.total_cases), tooltipBox))
         .style("display", "block");
 
       line
@@ -118,18 +120,19 @@
         .attr("display", "block");
     });
 
-    svg.on("mouseleave", () => {
+    svgDiv.on("mouseleave", () => {
       hover.remove();
       div.remove();
+      entered = false;
     });
   });
 
-  const ylines = [5000, 15000, 25000, 35000];
-  ylines.forEach((yval, i) => {
+  yAxis.forEach((yval, i) => {
     svg
       .append("line")
       .attr("stroke", "black")
       .attr("stroke-width", 0.2)
+      .attr("stroke-opacity", 0.3)
       .attr("y1", y(yval))
       .attr("y2", y(yval))
       .attr("x1", margin.left)
@@ -137,7 +140,7 @@
     svg
       .append("text")
       .attr("class", "svgtxt")
-      .text(yval / 1000 + ",000" + (i == ylines.length - 1 ? " cases" : ""))
+      .text(yval / 1000 + ",000" + (i == yAxis.length - 1 ? " cases" : ""))
       .attr("opacity", 0.4)
       .attr("y", y(yval) - 5)
       .attr("x", margin.left)
