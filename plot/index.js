@@ -1,4 +1,4 @@
-const size = { width: 288, height: 215 };
+const size = { width: 286, height: 213 };
 const margin = { left: 15, right: 15, top: 20, bottom: 25 };
 
 const getData = async () => {

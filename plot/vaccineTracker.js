@@ -96,7 +96,7 @@
   legend
     .append("text")
     .attr("class", "svgtxt")
-    .text("Full Vaccinated")
+    .text("Fully Vaccinated")
     .attr("y", y(20000))
     .attr("x", margin.left * 2)
     .attr("fill", "#FEBC11")
