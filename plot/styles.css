@@ -59,11 +59,12 @@ svg {
 
 #source {
   margin: 7px 0 0 0;
-  font-size: 9pt;
+  font-size: 8pt;
   text-align: right;
 }
 .svgtxt,
-.tooltip {
+.tooltip,
+.tooltipvac {
   font-family: Georgia, serif;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -82,11 +83,20 @@ svg {
   padding: 3px;
   width: 160px;
 }
+.tooltipvac {
+  position: relative;
+  background-color: white;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+  padding: 3px;
+  width: 180px;
+}
 .tooltipdate {
   font-size: 10pt;
 }
 
-.tooltip hr {
+.tooltip hr,
+.tooltipvac hr {
   margin: 3px 0;
   border: none;
   border-top: 1px solid black;

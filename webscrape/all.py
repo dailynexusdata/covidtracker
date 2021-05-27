@@ -15,7 +15,7 @@ sb_vaccines = vaccines[
         'cumulative_fully_vaccinated': "total_double_doses"
     }, axis=1)
 
-sb_cases = cases[cases["area"] == "Santa Barbara"][["date", "cases", "deaths"]].reset_index(drop=True)
+sb_cases = cases[cases["area"] == "Santa Barbara"][["date", "cases", "deaths", "population"]].reset_index(drop=True)
 sb_cases["total_cases"] = np.cumsum(np.flip(sb_cases["cases"]))
 sb_cases["avg"] = sb_cases["cases"].rolling(window=7, center=True).mean()
 

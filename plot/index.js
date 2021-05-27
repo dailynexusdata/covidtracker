@@ -49,7 +49,7 @@ totalSelection.addEventListener("click", () => {
   totalTracker.classList.add("selectedPlot");
   vaccineTracker.classList.remove("selectedPlot");
   dailyTracker.classList.remove("selectedPlot");
-  title.innerHTML = "Cumulative Covid Cases";
+  title.innerHTML = "Cumulative COVID-19 Cases";
 });
 daySelection.addEventListener("click", () => {
   totalSelection.classList.remove("selected");
@@ -58,7 +58,7 @@ daySelection.addEventListener("click", () => {
   totalTracker.classList.remove("selectedPlot");
   vaccineTracker.classList.remove("selectedPlot");
   dailyTracker.classList.add("selectedPlot");
-  title.innerHTML = "Daily Covid Cases";
+  title.innerHTML = "Daily COVID-19 Cases";
 });
 vaccineSelection.addEventListener("click", () => {
   totalSelection.classList.remove("selected");
@@ -67,10 +67,13 @@ vaccineSelection.addEventListener("click", () => {
   totalTracker.classList.remove("selectedPlot");
   vaccineTracker.classList.add("selectedPlot");
   dailyTracker.classList.remove("selectedPlot");
-  title.innerHTML = "Cumulative Vaccines";
+  title.innerHTML = "Cumulative COVID-19 Vaccines";
 });
 daySelection.classList.add("selected");
 dailyTracker.classList.add("selectedPlot");
 
 // daySelection.classList.add("selected");
 // dailyTracker.classList.add("selectedPlot");
+
+const COLOR1 = "#85BDDE"; //"rgb(231,111,81)";
+const COLOR2 = "#D96942";

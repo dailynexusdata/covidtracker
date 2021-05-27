@@ -46,7 +46,7 @@
 
   svg
     .append("g")
-    .attr("stroke", "#003660")
+    .attr("stroke", COLOR2)
     .attr("stroke-width", 3)
     .attr("fill", "none")
     .datum(data)
@@ -55,7 +55,7 @@
   svg
     .append("g")
     .attr("stroke", "none")
-    .attr("fill", "#228FCB")
+    .attr("fill", COLOR2)
     .attr("fill-opacity", 0.3)
     .selectAll("myArea")
     .data([data])

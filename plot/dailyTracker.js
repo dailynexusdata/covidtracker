@@ -60,7 +60,7 @@
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 4 0 0 2 4 4")
-    .attr("fill", "#003660");
+    .attr("fill", COLOR2);
   const labels = svg.append("g");
 
   labels
@@ -71,7 +71,7 @@
     .attr("y", y(265))
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
-    .attr("fill", "#003660")
+    .attr("fill", COLOR2)
     .attr("font-weight", "bold");
 
   labels
@@ -82,7 +82,7 @@
     .attr("y", y(265) + 12)
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
-    .attr("fill", "#003660")
+    .attr("fill", COLOR2)
     .attr("font-weight", "bold");
 
   labels
@@ -94,7 +94,7 @@
       } ${y(265) + 14}`
     )
     .attr("fill", "none")
-    .attr("stroke", "#003660")
+    .attr("stroke", COLOR2)
     .attr("stroke-width", 2)
     .attr("marker-start", "url(#triangle)");
 
@@ -106,7 +106,7 @@
     .attr("class", "tooltip")
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
-    .attr("fill", "#FFC82D");
+    .attr("fill", COLOR1);
 
   labels
     .append("svg:defs")
@@ -119,7 +119,7 @@
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 4 0 0 2 4 4")
-    .attr("fill", "#FEBC11");
+    .attr("fill", COLOR1);
   labels
     .append("path")
     .attr(
@@ -129,7 +129,7 @@
       }, ${size.width / 3 + 10} ${y(420) + 2}`
     )
     .attr("fill", "none")
-    .attr("stroke", "#FEBC11")
+    .attr("stroke", COLOR1)
     .attr("stroke-width", 2)
     .attr("marker-start", "url(#triangle2)");
 
@@ -146,7 +146,7 @@
 
   const bars = svg
     .append("g")
-    .attr("fill", "#FEBC11")
+    .attr("fill", COLOR1)
     .selectAll("bars")
     .data(data)
     .enter()
@@ -251,7 +251,7 @@
   svg
     .append("g")
     .attr("fill", "none")
-    .attr("stroke", "#002B4C")
+    .attr("stroke", COLOR2)
     .attr("stroke-width", 2)
     .selectAll("avg")
     .data([data.slice(3, data.length - 3)])
