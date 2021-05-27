@@ -27,8 +27,8 @@ axios
       .map((val) => {
         total += val.daily;
         return { ...val, total };
-      })
-      .filter(({ total }) => total > 0);
+      });
+    // .filter(({ total }) => total > 0);
 
     return output;
   })

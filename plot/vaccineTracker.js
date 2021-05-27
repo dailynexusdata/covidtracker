@@ -102,7 +102,7 @@
     .append("text")
     .attr("class", "svgtxt")
     .text("Fully Vaccinated")
-    .attr("y", y(0.1))
+    .attr("y", y(0.09))
     .attr("x", margin.left * 2)
     .attr("fill", COLOR1)
     .attr("text-align", "start")
@@ -111,23 +111,23 @@
     .append("text")
     .attr("class", "svgtxt")
     .text("At Least One Dose")
-    .attr("y", y(0.1) - 16)
+    .attr("y", y(0.09) - 16)
     .attr("x", margin.left * 2)
     .attr("fill", COLOR2)
     .attr("text-align", "start")
     .attr("alignment-baseline", "middle");
   legend
     .append("line")
-    .attr("y1", y(0.1) - 16)
-    .attr("y2", y(0.1) - 16)
+    .attr("y1", y(0.09) - 16)
+    .attr("y2", y(0.09) - 16)
     .attr("x1", margin.left)
     .attr("x2", margin.left * 2)
     .attr("stroke", COLOR2)
     .attr("stroke-width", 2);
   legend
     .append("line")
-    .attr("y1", y(0.1))
-    .attr("y2", y(0.1))
+    .attr("y1", y(0.09))
+    .attr("y2", y(0.09))
     .attr("x1", margin.left)
     .attr("x2", margin.left * 2)
     .attr("stroke", COLOR1)
@@ -173,19 +173,19 @@
           : curr;
       });
 
-      div.html(
-        `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
-          currDate
-        )} </div><hr><b>At Least One Dose: <br>${d3.format(",")(
-          val.total_doses
-        )} people (${Math.round(
-          (val.total_doses / val.population) * 100
-        )}%)</b><br>Fully Vaccinated: <br>${d3.format(",")(
-          val.total_double_doses
-        )} people (${Math.round(
-          (val.total_double_doses / val.population) * 100
-        )}%)`
-      );
+      div
+        .html(
+          `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
+            currDate
+          )} </div><hr><b>At Least One Dose: <br>${Math.round(
+            (val.total_doses / val.population) * 100
+          )}% (${d3.format(",")(
+            val.total_doses
+          )} people)</b><br>Fully Vaccinated: <br>${Math.round(
+            (val.total_double_doses / val.population) * 100
+          )}% (${d3.format(",")(val.total_double_doses)} people)`
+        )
+        .style("display", "block");
 
       const tooltipBox = div.node().getBoundingClientRect();
       div
@@ -193,8 +193,7 @@
         .style(
           "top",
           tooltipAlignmenty(y(val.total_doses / val.population), tooltipBox)
-        )
-        .style("display", "block");
+        );
       line
         .attr("x1", x(currDate))
         .attr("x2", x(currDate))

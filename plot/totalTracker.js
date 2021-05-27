@@ -96,17 +96,18 @@
           ? past
           : curr;
       });
-      div.html(
-        `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
-          currDate
-        )}</div><hr>Total Cases: ${d3.format(",")(val.total_cases)}`
-      );
+      div
+        .html(
+          `<div class="tooltipdate">${d3.timeFormat("%B %-d, %Y")(
+            currDate
+          )}</div><hr>Total Cases: ${d3.format(",")(val.total_cases)}`
+        )
+        .style("display", "block");
 
       const tooltipBox = div.node().getBoundingClientRect();
       div
         .style("left", tooltipAlignmentx(x(currDate), tooltipBox))
-        .style("top", tooltipAlignmenty(y(val.total_cases), tooltipBox))
-        .style("display", "block");
+        .style("top", tooltipAlignmenty(y(val.total_cases), tooltipBox));
 
       line
         .attr("x1", x(currDate))
