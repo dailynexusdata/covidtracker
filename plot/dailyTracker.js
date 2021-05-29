@@ -13,7 +13,6 @@
   const x = d3
     .scaleTime()
     .domain(dateRange)
-    // .nice()
     .range([margin.left, size.width - margin.right]);
 
   const yinit = d3
@@ -68,7 +67,7 @@
     .text("7-day")
     .attr("class", "tooltip")
     .attr("x", size.width - 40)
-    .attr("y", y(265))
+    .attr("y", size.height - (margin.bottom * 16) / 5)
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
     .attr("fill", COLOR2)
@@ -79,7 +78,7 @@
     .text("average")
     .attr("class", "tooltip")
     .attr("x", size.width - 40)
-    .attr("y", y(265) + 12)
+    .attr("y", size.height - margin.bottom * 2.7)
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
     .attr("fill", COLOR2)
@@ -89,9 +88,11 @@
     .append("path")
     .attr(
       "d",
-      `M ${size.width - 63} ${y(150)} Q ${size.width - 40} ${y(150)}, ${
+      `M ${size.width - 63} ${size.height - margin.bottom * 2.25} Q ${
         size.width - 40
-      } ${y(265) + 14}`
+      } ${size.height - margin.bottom * 2.25}, ${size.width - 40} ${
+        size.height - margin.bottom * 2.65
+      }`
     )
     .attr("fill", "none")
     .attr("stroke", COLOR2)
@@ -102,7 +103,7 @@
     .append("text")
     .text("New cases")
     .attr("x", size.width / 3 + 10)
-    .attr("y", y(420))
+    .attr("y", size.height * 0.5)
     .attr("class", "tooltip")
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
@@ -124,9 +125,9 @@
     .append("path")
     .attr(
       "d",
-      `M ${size.width / 4 + 5} ${y(295) - 12} Q ${size.width / 3 + 10} ${
-        y(295) - 12
-      }, ${size.width / 3 + 10} ${y(420) + 2}`
+      `M ${size.width / 4 + 5} ${size.height * 0.57} Q ${size.width / 3 + 10} ${
+        size.height * 0.57
+      }, ${size.width / 3 + 10} ${size.height * 0.51}`
     )
     .attr("fill", "none")
     .attr("stroke", COLOR1)

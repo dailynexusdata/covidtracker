@@ -63,5 +63,5 @@ vaccineSelection.addEventListener("click", () => {
 daySelection.classList.add("selected");
 dailyTracker.classList.add("selectedPlot");
 
-const COLOR1 = "#85BDDEbb"; //"rgb(231,111,81)";
+const COLOR1 = "#85BDDEbb";
 const COLOR2 = "#D96942";
