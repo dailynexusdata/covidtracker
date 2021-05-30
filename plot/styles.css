@@ -7,9 +7,8 @@
 #covid19sidebarplotarea > h3:first-child {
   margin: 3px 5px 0 5px;
 }
-
 #covid19sidebarplotarea h3 {
-  margin: 0 5px;
+  margin: 0;
   text-align: center;
   font-weight: lighter;
 }
@@ -27,7 +26,7 @@
 
 .covid19sidebarinput {
   margin: 0;
-  width: 80px;
+  width: 75px;
   background-color: #d3d3d366;
   border-radius: 5px;
   text-align: center;

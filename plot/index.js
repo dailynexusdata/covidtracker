@@ -58,7 +58,7 @@ vaccineSelection.addEventListener("click", () => {
   totalTracker.classList.remove("selectedPlot");
   vaccineTracker.classList.add("selectedPlot");
   dailyTracker.classList.remove("selectedPlot");
-  title.innerHTML = "Cumulative COVID-19 Vaccines";
+  title.innerHTML = "COVID-19 Vaccines Administered";
 });
 daySelection.classList.add("selected");
 dailyTracker.classList.add("selectedPlot");
