@@ -1,31 +1,31 @@
-#plotarea {
+#covid19sidebarplotarea {
   width: 286px;
   height: 286px;
   border: 1px solid #d3d3d3;
 }
 
-#plotarea > h3:first-child {
+#covid19sidebarplotarea > h3:first-child {
   margin: 3px 5px 0 5px;
 }
 
-h3 {
+#covid19sidebarplotarea h3 {
   margin: 0 5px;
   text-align: center;
   font-weight: lighter;
 }
 
-html {
+#covid19sidebarplotarea {
   font-family: Georgia, serif;
 }
 
-#controls {
+#covid19sidebarcontrols {
   height: 25px;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.input {
+.covid19sidebarinput {
   margin: 0;
   width: 80px;
   background-color: #d3d3d366;
@@ -39,30 +39,30 @@ html {
   user-select: none;
 }
 
-.input:hover {
+.covid19sidebarinput:hover {
   cursor: pointer;
 }
 
-.selected {
+#covid19sidebarcontrols .selected {
   background-color: #d3d3d3;
 }
 
-.selectedPlot {
+#covid19sidebarplots .selectedPlot {
   display: block;
 }
 
-svg {
+#covid19sidebarplots svg {
   display: none;
 }
 
-#source {
-  margin: 7px 0 0 0;
+#covid19sidebarsource {
+  margin: 7px 0 0 25px;
   font-size: 10pt;
   text-align: right;
 }
-.svgtxt,
-.tooltip,
-.tooltipvac {
+#covid19sidebarplots .svgtxt,
+#covid19sidebarplots .tooltip,
+#covid19sidebarplots .tooltipvac {
   font-family: Georgia, serif;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -73,7 +73,7 @@ svg {
   user-select: none;
 }
 
-.tooltip {
+#covid19sidebarplots .tooltip {
   position: relative;
   background-color: white;
   border: 1px solid #d3d3d3;
@@ -81,7 +81,7 @@ svg {
   padding: 3px;
   width: 160px;
 }
-.tooltipvac {
+#covid19sidebarplots .tooltipvac {
   position: relative;
   background-color: white;
   border: 1px solid #d3d3d3;
@@ -89,29 +89,29 @@ svg {
   padding: 3px;
   width: 180px;
 }
-.tooltipdate {
+#covid19sidebarplots .tooltipdate {
   font-size: 10pt;
 }
 
-.tooltip hr,
-.tooltipvac hr {
+#covid19sidebarplots .tooltip hr,
+#covid19sidebarplots .tooltipvac hr {
   margin: 3px 0;
   border: none;
   border-top: 1px solid black;
 }
 
-#vaccineTrackerDiv,
-#dailyTrackerDiv,
-#totalTrackerDiv {
+#covid19sidebarvaccineTrackerDiv,
+#covid19sidebardailyTrackerDiv,
+#covid19sidebartotalTrackerDiv {
   /* display: absolute; */
   position: absolute;
 }
 
-#plots {
+#covid19sidebarplots {
   height: 215px;
 }
 
-a {
+#covid19sidebarsource a {
   color: black;
   text-decoration: none; /* no underline */
 }

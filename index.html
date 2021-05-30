@@ -14,26 +14,27 @@
         <main style='display: flex; width: 700px'>
             <div style="width: 100%; display: flex; justify-content: center; margin: 5px">
                 <!--  -->
-                <div id="plotarea">
+                <div id="covid19sidebarplotarea">
                     <h3>Santa Barbara County </h3>
-                    <h3 id="title">Daily COVID-19 Cases</h3>
-                    <div id="controls">
-                        <p class="input" id="vaccinebutton">Vaccines</p>
-                        <p class="input" id="daybutton">Daily</p>
-                        <p class="input" id="totalbutton">Total</p>
+                    <h3 id="covid19sidebartitle">Daily COVID-19 Cases</h3>
+                    <div id="covid19sidebarcontrols">
+                        <p class="covid19sidebarinput" id="covid19sidebarvaccinebutton">Vaccines</p>
+                        <p class="covid19sidebarinput" id="covid19sidebardaybutton">Daily</p>
+                        <p class="covid19sidebarinput" id="covid19sidebartotalbutton">Cases</p>
                     </div>
-                    <div id="plots">
-                        <div id="totalTrackerDiv">
-                            <svg id="totalTracker"></svg>
+                    <div id="covid19sidebarplots">
+                        <div id="covid19sidebartotalTrackerDiv">
+                            <svg id="covid19sidebartotalTracker"></svg>
                         </div>
-                        <div id="vaccineTrackerDiv">
-                            <svg id="vaccineTracker"></svg>
+                        <div id="covid19sidebarvaccineTrackerDiv">
+                            <svg id="covid19sidebarvaccineTracker"></svg>
                         </div>
-                        <div id="dailyTrackerDiv">
-                            <svg id="dailyTracker"></svg>
+                        <div id="covid19sidebardailyTrackerDiv">
+                            <svg id="covid19sidebardailyTracker"></svg>
                         </div>
                     </div>
-                    <p id="source"><a href="https://data.chhs.ca.gov/"><i>Source: CHHS</i></a></p>
+                    <p id="covid19sidebarsource"><a href="https://data.chhs.ca.gov/"><i>Source: California Health and
+                                Human Services Agency</i></a></p>
                 </div>
                 <!--  -->
             </div>

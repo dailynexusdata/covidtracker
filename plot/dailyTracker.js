@@ -2,11 +2,11 @@
   const data = await getData();
 
   const svg = d3
-    .select("#dailyTracker")
+    .select("#covid19sidebardailyTracker")
     .attr("width", size.width)
     .attr("height", size.height);
 
-  const svgDiv = d3.select("#dailyTrackerDiv");
+  const svgDiv = d3.select("#covid19sidebardailyTrackerDiv");
 
   const dateRange = [data[0].date, data[data.length - 1].date];
 

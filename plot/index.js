@@ -24,14 +24,14 @@ const tooltipAlignmenty = (y, tooltipBox) => {
   return y - size.height - 10 - tooltipBox.height + "px";
 };
 
-const totalSelection = document.getElementById("totalbutton");
-const daySelection = document.getElementById("daybutton");
-const totalTracker = document.getElementById("totalTracker");
-const dailyTracker = document.getElementById("dailyTracker");
-const vaccineSelection = document.getElementById("vaccinebutton");
-const vaccineTracker = document.getElementById("vaccineTracker");
+const totalSelection = document.getElementById("covid19sidebartotalbutton");
+const daySelection = document.getElementById("covid19sidebardaybutton");
+const totalTracker = document.getElementById("covid19sidebartotalTracker");
+const dailyTracker = document.getElementById("covid19sidebardailyTracker");
+const vaccineSelection = document.getElementById("covid19sidebarvaccinebutton");
+const vaccineTracker = document.getElementById("covid19sidebarvaccineTracker");
 
-const title = document.getElementById("title");
+const title = document.getElementById("covid19sidebartitle");
 
 totalSelection.addEventListener("click", () => {
   totalSelection.classList.add("selected");
