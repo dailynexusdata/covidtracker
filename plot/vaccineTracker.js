@@ -231,7 +231,9 @@
     svg
       .append("text")
       .attr("class", "svgtxt")
-      .text(yval * 100 + (yAxis.length - 1 === i ? "% of population" : "%"))
+      .text(
+        yval * 100 + (yAxis.length - 1 === i ? "% of county population" : "%")
+      )
       .attr("opacity", 0.4)
       .attr("y", y(yval) - 5)
       .attr("x", margin.left)
