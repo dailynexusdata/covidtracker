@@ -6,7 +6,6 @@ vaccines = pd.read_csv(
 cases = pd.read_csv(
     "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv")
 
-
 sb_vaccines = vaccines[
     vaccines["county"] == "Santa Barbara"
 ][["administered_date", "cumulative_at_least_one_dose", 'cumulative_fully_vaccinated']] \
@@ -20,8 +19,6 @@ sb_vaccines = vaccines[
 sb_cases = cases[cases["area"] == "Santa Barbara"][[
     "date", "cases", "deaths", "population"]].reset_index(drop=True)
 
-print(sb_cases.head())
-
 sb_cases["total_cases"] = np.cumsum(sb_cases["cases"])
 sb_cases["avg"] = sb_cases["cases"].rolling(window=7, center=True).mean()
 
@@ -30,8 +27,11 @@ combined = pd.merge(
     sb_cases,
     sb_vaccines,
     on="date",
-    how="left"
+    how="outer"
 ).dropna(subset=["date"]).fillna(0)
+
+print(combined.head())
+print(combined.tail())
 
 # Array of objects which represent each row
 combined.to_json("plot/cases_vaccines.json", orient="records")
