@@ -2,7 +2,11 @@ const size = { width: 286, height: 213 };
 const margin = { left: 15, right: 15, top: 28, bottom: 25 };
 
 const getData = async () => {
-  return (await d3.json("plot/cases_vaccines.json")).map((record) => {
+  return (
+    await d3.json(
+      "https://dailynexus.s3-us-west-1.amazonaws.com/cases_vaccines.json"
+    )
+  ).map((record) => {
     return {
       ...record,
       date: new Date(`${record.date} PST`),
