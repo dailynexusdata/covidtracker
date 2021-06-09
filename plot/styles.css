@@ -2,19 +2,26 @@
   width: 286px;
   height: 286px;
   border: 1px solid #d3d3d3;
+  margin-bottom: 50px;
 }
 
 #covid19sidebarplotarea > h3:first-child {
   margin: 3px 5px 0 5px;
 }
+#covid19sidebarplotarea > h3:nth-child(2) {
+  margin: 0;
+}
 #covid19sidebarplotarea h3 {
+  font-size: 18.72px !important;
+  color: black;
   margin: 0;
   text-align: center;
-  font-weight: lighter;
+  font-weight: lighter !important;
+  letter-spacing: normal !important;
 }
 
 #covid19sidebarplotarea {
-  font-family: Georgia, serif;
+  font-family: Georgia, serif !important;
 }
 
 #covid19sidebarcontrols {
@@ -87,9 +94,13 @@
   border-radius: 5px;
   padding: 3px;
   width: 180px;
+  text-align: left !important;
+  letter-spacing: normal !important;
 }
 #covid19sidebarplots .tooltipdate {
   font-size: 10pt;
+  text-align: left !important;
+  letter-spacing: normal !important;
 }
 
 #covid19sidebarplots .tooltip hr,
