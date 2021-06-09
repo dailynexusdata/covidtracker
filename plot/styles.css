@@ -1,8 +1,11 @@
+#covid19sidebar {
+  height: 330px;
+}
+
 #covid19sidebarplotarea {
   width: 286px;
   height: 286px;
   border: 1px solid #d3d3d3;
-  margin-bottom: 50px;
 }
 
 #covid19sidebarplotarea > h3:first-child {
@@ -77,6 +80,8 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  text-align: left !important;
+  letter-spacing: normal !important;
 }
 
 #covid19sidebarplots .tooltip {
