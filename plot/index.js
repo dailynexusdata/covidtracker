@@ -356,7 +356,6 @@ const COLOR2 = "#D96942";
       .scaleLinear()
       .domain([0, data[data.length - 1].total_cases]);
     const yAxis = d3.axisLeft(yinit).scale().nice(3).ticks(3).slice(1);
-
     const y = d3
       .scaleLinear()
       .domain([0, yAxis[yAxis.length - 1]])
@@ -370,19 +369,16 @@ const COLOR2 = "#D96942";
       .call(d3.axisBottom().scale(x).ticks(7).tickFormat(d3.timeFormat("%b")));
 
     const line = d3
-      // .area(d3.curveLinear)
       .line()
       .x((d) => x(d.date))
       .y((d) => y(d.total_cases));
-    // .y0((d) => y(d.total))
-    // .y1(y(0));
 
     const area = d3
       .area()
       .x((d) => x(d.date))
       .y0(size.height - margin.bottom)
       .y1((d) => y(d.total_cases));
-
+    console.log(data);
     svg
       .append("g")
       .attr("stroke", COLOR2)
@@ -469,7 +465,6 @@ const COLOR2 = "#D96942";
         entered = false;
       });
     });
-
     yAxis.forEach((yval, i) => {
       svg
         .append("line")
