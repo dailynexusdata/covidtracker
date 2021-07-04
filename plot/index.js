@@ -11,7 +11,7 @@ const getData = async () => {
   ).map((record) => {
     return {
       ...record,
-      date: parseTime(record.date)
+      date: parseTime(record.date),
     };
   });
 };
@@ -232,7 +232,7 @@ const COLOR2 = "#D96942";
       .attr("y", (d) => size.height - margin.bottom - yHeight(d.cases))
       .attr("height", (d) => {
         if (yHeight(d.cases) < 0) {
-          console.log(d);
+          // console.log(d);
           return size, height;
         }
         return yHeight(d.cases);
@@ -380,7 +380,6 @@ const COLOR2 = "#D96942";
       .x((d) => x(d.date))
       .y0(size.height - margin.bottom)
       .y1((d) => y(d.total_cases));
-    console.log(data);
     svg
       .append("g")
       .attr("stroke", COLOR2)
