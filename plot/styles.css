@@ -15,6 +15,7 @@
   margin: 0;
 }
 #covid19sidebarplotarea h3 {
+  /* need to override font-size for h3 in the website sidebar*/
   font-size: 18.72px !important;
   color: black;
   margin: 0;

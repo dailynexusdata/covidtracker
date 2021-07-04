@@ -2,6 +2,8 @@ const size = { width: 286, height: 213 };
 const margin = { left: 15, right: 15, top: 28, bottom: 25 };
 
 const getData = async () => {
+  let parseTime = d3.timeParse("%Y-%m-%d");
+
   return (
     await d3.json(
       "https://dailynexus.s3-us-west-1.amazonaws.com/cases_vaccines.json"
@@ -9,7 +11,7 @@ const getData = async () => {
   ).map((record) => {
     return {
       ...record,
-      date: new Date(`${record.date} PST`),
+      date: parseTime(record.date)
     };
   });
 };
