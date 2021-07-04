@@ -7,6 +7,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 def fetch_data():
     vaccines = pd.read_csv(
         "https://data.chhs.ca.gov/dataset/e283ee5a-cf18-4f20-a92c-ee94a2866ccd/resource/130d7ba2-b6eb-438d-a412-741bde207e1c/download/covid19vaccinesbycounty.csv")
@@ -35,13 +36,14 @@ def fetch_data():
         sb_vaccines,
         on="date",
         how="outer"
-    ).dropna(subset=["date"]).fillna(0)
+    ).dropna(subset=["date", "population", "total_cases"]).fillna(0)
 
     print(combined.head())
     print(combined.tail())
 
     # Array of objects which represent each row
     return combined.to_dict(orient="records")
+
 
 def upload(data):
     s3 = boto3.resource('s3')
@@ -53,12 +55,15 @@ def upload(data):
     )
     log.info(response)
 
+
 def lambda_handler(event=None, context=None, dry_run=False):
     covid_data = fetch_data()
     upload(covid_data)
 
+
 def main():
     lambda_handler(None, None, False)
+
 
 if __name__ == "__main__":
     main()
