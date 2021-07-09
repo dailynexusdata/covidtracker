@@ -42,6 +42,8 @@ def fetch_data():
     print(combined.tail())
 
     # Array of objects which represent each row
+    combined.to_json("data.json", orient="records")
+
     return combined.to_dict(orient="records")
 
 

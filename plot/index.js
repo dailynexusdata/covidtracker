@@ -6,6 +6,7 @@ const getData = async () => {
 
   return (
     await d3.json(
+      // "plot/data.json"
       "https://dailynexus.s3-us-west-1.amazonaws.com/cases_vaccines.json"
     )
   ).map((record) => {
@@ -81,7 +82,9 @@ const COLOR2 = "#D96942";
       .attr("width", size.width)
       .attr("height", size.height);
 
-    const svgDiv = d3.select("#covid19sidebardailyTrackerDiv");
+    const svgDiv = d3
+      .select("#covid19sidebardailyTrackerDiv")
+      .style("height", size.height + "px");
 
     const dateRange = [data[0].date, data[data.length - 1].date];
 
@@ -141,7 +144,7 @@ const COLOR2 = "#D96942";
       .append("text")
       .text("7-day")
       .attr("class", "tooltip")
-      .attr("x", size.width - 40)
+      .attr("x", x(new Date(2021, 4 - 1, 20)))
       .attr("y", size.height - (margin.bottom * 16) / 5)
       .attr("text-anchor", "middle")
       .attr("font-size", 14)
@@ -152,7 +155,7 @@ const COLOR2 = "#D96942";
       .append("text")
       .text("average")
       .attr("class", "tooltip")
-      .attr("x", size.width - 40)
+      .attr("x", x(new Date(2021, 4 - 1, 20)))
       .attr("y", size.height - margin.bottom * 2.7)
       .attr("text-anchor", "middle")
       .attr("font-size", 14)
@@ -163,9 +166,11 @@ const COLOR2 = "#D96942";
       .append("path")
       .attr(
         "d",
-        `M ${size.width - 63} ${size.height - margin.bottom * 2.25} Q ${
-          size.width - 40
-        } ${size.height - margin.bottom * 2.25}, ${size.width - 40} ${
+        `M ${x(new Date(2021, 3 - 1, 1))} ${
+          size.height - margin.bottom * 2.25
+        } Q ${x(new Date(2021, 4 - 1, 20))} ${
+          size.height - margin.bottom * 2.25
+        }, ${x(new Date(2021, 4 - 1, 20))} ${
           size.height - margin.bottom * 2.65
         }`
       )
@@ -177,7 +182,7 @@ const COLOR2 = "#D96942";
     labels
       .append("text")
       .text("New cases")
-      .attr("x", size.width / 3 + 10)
+      .attr("x", x(new Date(2020, 7 - 1, 30)))
       .attr("y", size.height * 0.5)
       .attr("class", "tooltip")
       .attr("text-anchor", "middle")
@@ -200,9 +205,11 @@ const COLOR2 = "#D96942";
       .append("path")
       .attr(
         "d",
-        `M ${size.width / 4 + 5} ${size.height * 0.57} Q ${
-          size.width / 3 + 10
-        } ${size.height * 0.57}, ${size.width / 3 + 10} ${size.height * 0.51}`
+        `M ${x(new Date(2020, 5 - 1, 28))} ${size.height * 0.57} Q ${x(
+          new Date(2020, 7 - 1, 30)
+        )} ${size.height * 0.57}, ${x(new Date(2020, 7 - 1, 30))} ${
+          size.height * 0.51
+        }`
       )
       .attr("fill", "none")
       .attr("stroke", COLOR1)
@@ -245,7 +252,7 @@ const COLOR2 = "#D96942";
       }
       entered = true;
 
-      const hover = svg.append("g");
+      const hover = svg.append("g").style("height", size.height);
       const circ = hover
         .append("circle")
         .attr("r", 3)
@@ -345,8 +352,9 @@ const COLOR2 = "#D96942";
       .attr("width", size.width)
       .attr("height", size.height);
 
-    const svgDiv = d3.select("#covid19sidebartotalTrackerDiv");
-
+    const svgDiv = d3
+      .select("#covid19sidebartotalTrackerDiv")
+      .style("height", size.height + "px");
     const dateRange = [data[0].date, data[data.length - 1].date];
 
     const x = d3
@@ -419,6 +427,9 @@ const COLOR2 = "#D96942";
         .append("div")
         .attr("class", "tooltip")
         .style("display", "none");
+
+      const mouseOverArea = d3.select("#covid19sidebarplots");
+
       svgDiv.on("mousemove", (event) => {
         let currDate = x.invert(d3.pointer(event)[0]);
 
@@ -492,8 +503,9 @@ const COLOR2 = "#D96942";
       .select("#covid19sidebarvaccineTracker")
       .attr("width", size.width)
       .attr("height", size.height);
-    const svgDiv = d3.select("#covid19sidebarvaccineTrackerDiv");
-
+    const svgDiv = d3
+      .select("#covid19sidebarvaccineTrackerDiv")
+      .style("height", size.height + "px");
     const dateRange = [data[0].date, data[data.length - 1].date];
 
     const x = d3
