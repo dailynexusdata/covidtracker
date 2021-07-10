@@ -144,7 +144,7 @@ const COLOR2 = "#D96942";
       .append("text")
       .text("7-day")
       .attr("class", "tooltip")
-      .attr("x", x(new Date(2021, 4 - 1, 20)))
+      .attr("x", x(new Date(2021, 3 - 1, 1)) + 25)
       .attr("y", size.height - (margin.bottom * 16) / 5)
       .attr("text-anchor", "middle")
       .attr("font-size", 14)
@@ -155,7 +155,7 @@ const COLOR2 = "#D96942";
       .append("text")
       .text("average")
       .attr("class", "tooltip")
-      .attr("x", x(new Date(2021, 4 - 1, 20)))
+      .attr("x", x(new Date(2021, 3 - 1, 1)) + 25)
       .attr("y", size.height - margin.bottom * 2.7)
       .attr("text-anchor", "middle")
       .attr("font-size", 14)
@@ -168,9 +168,9 @@ const COLOR2 = "#D96942";
         "d",
         `M ${x(new Date(2021, 3 - 1, 1))} ${
           size.height - margin.bottom * 2.25
-        } Q ${x(new Date(2021, 4 - 1, 20))} ${
+        } Q ${x(new Date(2021, 3 - 1, 1)) + 25} ${
           size.height - margin.bottom * 2.25
-        }, ${x(new Date(2021, 4 - 1, 20))} ${
+        }, ${x(new Date(2021, 3 - 1, 1)) + 25} ${
           size.height - margin.bottom * 2.65
         }`
       )
@@ -182,7 +182,7 @@ const COLOR2 = "#D96942";
     labels
       .append("text")
       .text("New cases")
-      .attr("x", x(new Date(2020, 7 - 1, 30)))
+      .attr("x", x(new Date(2020, 5 - 1, 28)) + 30)
       .attr("y", size.height * 0.5)
       .attr("class", "tooltip")
       .attr("text-anchor", "middle")
@@ -205,9 +205,9 @@ const COLOR2 = "#D96942";
       .append("path")
       .attr(
         "d",
-        `M ${x(new Date(2020, 5 - 1, 28))} ${size.height * 0.57} Q ${x(
-          new Date(2020, 7 - 1, 30)
-        )} ${size.height * 0.57}, ${x(new Date(2020, 7 - 1, 30))} ${
+        `M ${x(new Date(2020, 5 - 1, 28))} ${size.height * 0.57} Q ${
+          x(new Date(2020, 5 - 1, 28)) + 30
+        } ${size.height * 0.57}, ${x(new Date(2020, 5 - 1, 28)) + 30} ${
           size.height * 0.51
         }`
       )
