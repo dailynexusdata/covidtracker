@@ -25,24 +25,27 @@ def fetch_data():
         }, axis=1)
 
     sb_cases = cases[cases["area"] == "Santa Barbara"][[
-        "date", "cases", "deaths", "population"]].reset_index(drop=True)
+        "date", "cases", "population"]].reset_index(drop=True)
 
     sb_cases["total_cases"] = np.cumsum(sb_cases["cases"])
-    sb_cases["avg"] = sb_cases["cases"].rolling(window=7, center=True).mean()
+    sb_cases["avg"] = np.convolve(sb_cases.cases, np.ones(7)/7, mode="same")
 
-    # print(np.cumsum(np.flip(sb_cases["deaths"])))
     combined = pd.merge(
         sb_cases,
         sb_vaccines,
         on="date",
         how="outer"
-    ).dropna(subset=["date", "population", "total_cases"]).fillna(0)
+    ).dropna(subset=["date", "population", "total_cases", "cases"]).fillna(0)
 
-    print(combined.head())
-    print(combined.tail())
+    # drop last row if last day cases are 0
+    if combined.iloc[-1].cases == 0:
+        combined = combined[:-1]
+
+    # print(combined.head())
+    # print(combined.tail())
 
     # Array of objects which represent each row
-    combined.to_json("data.json", orient="records")
+    # combined.to_json("plot/data.json", orient="records")
 
     return combined.to_dict(orient="records")
 

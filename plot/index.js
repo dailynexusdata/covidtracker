@@ -6,8 +6,8 @@ const getData = async () => {
 
   return (
     await d3.json(
-      // "plot/data.json"
-      "https://dailynexus.s3-us-west-1.amazonaws.com/cases_vaccines.json"
+      "plot/data.json"
+      // "https://dailynexus.s3-us-west-1.amazonaws.com/cases_vaccines.json"
     )
   ).map((record) => {
     return {
